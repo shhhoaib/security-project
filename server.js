@@ -14,7 +14,12 @@ app.use(cookieParser());
 const csrfProtection = csrf({ cookie: true });
 // Helmet
 app.use(helmet());
-
+// Nikto Fixes
+app.use(helmet.xContentTypeOptions());
+app.use((req, res, next) => {
+  res.setHeader('Permissions-Policy', 'geolocation=(), microphone=(), camera=()');
+  next();
+});
 // CSP
 app.use(
   helmet.contentSecurityPolicy({
